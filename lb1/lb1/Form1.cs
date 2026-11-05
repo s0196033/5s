@@ -16,20 +16,20 @@ namespace lb1
             string driver = txtDriver.Text.Trim(); // Trim() удаляет пробелы в начале и в конце строки
             if (driver.Length == 0)
             {
-                lblStatus.Text = "Введите имя пилота!";
+                ShowError("Введите имя пилота!");
                 txtDriver.Focus();
                 return;
             }
             if (cmbCar.SelectedIndex == -1) // =-1 не выбран элемент из выбранного списка
             {
-                lblStatus.Text = "Введите автомобиль!";
+                ShowError("Введите автомобиль!");
                 cmbCar.Focus();
                 return;
             }
 
             if (cmbTrack.SelectedIndex == -1)
             {
-                lblStatus.Text = "Введите трассу!";
+                ShowError("Введите трассу!");
                 cmbTrack.Focus();
                 return;
             }
@@ -37,20 +37,20 @@ namespace lb1
             string timeString = txtTime.Text.Trim();
             if (!int.TryParse(timeString, out int time)) // int.TryParse() проверят является ли строка числом
             {
-                lblStatus.Text = "Введите целое число!";
+                ShowError("Введите целое число!");
                 txtTime.Focus();
                 return;
             }
             if (time < 30 || time > 600)
             {
-                lblStatus.Text = "Время должно быть от 30 до 600 секунд!";
+                ShowError("Время должно быть от 30 до 600 секунд!");
                 txtTime.Focus();
                 return;
             }
             string result = $"{driver} | {cmbCar.Text} | {cmbTrack.Text} | {time} c";
             lstResults.Items.Add(result); //Items.Add() добавляет элемент в конец списка результатов
 
-            lblStatus.Text = $"Добавлено. Всего записей:{lstResults.Items.Count}"; // Items.Count возвращает количество элементов
+            lblStatus.Text = $"Добавлено. Всего записей: {lstResults.Items.Count}"; // Items.Count возвращает количество элементов
 
             ClearInput();
         }
@@ -58,6 +58,8 @@ namespace lb1
         {
             txtDriver.Clear();
             txtTime.Clear();
+            cmbCar.SelectedIndex = 0;
+            cmbTrack.SelectedIndex = 0;
             txtDriver.Focus();
         }
 
@@ -65,7 +67,7 @@ namespace lb1
         {
             if (lstResults.SelectedIndex == -1)
             {
-                lblStatus.Text = "Выберите запись для удаления!";
+                ShowError("Выберите запись для удаления!");
                 return;
             }
             lstResults.Items.RemoveAt(lstResults.SelectedIndex);
@@ -76,14 +78,12 @@ namespace lb1
         {
             ClearInput();
             lblStatus.Text = "Поля очищены";
+            lblStatus.ForeColor = Color.Black;
         }
-
-        /*
         private void ShowError(string message)
         {
             lblStatus.Text = message;
             lblStatus.ForeColor = Color.Red;
         }
-        */
     }
 }
